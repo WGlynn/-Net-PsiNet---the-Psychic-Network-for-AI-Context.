@@ -183,15 +183,15 @@ Network trends towards public good and lower costs
 
 📚 **Full Details**: See [HARBERGER_TAXES.md](./HARBERGER_TAXES.md) for complete technical documentation
 
-### 🎓 AI Skills Marketplace
+### 🎓 AI Skills Mining mechanism
 
 ΨNet integrates with **[Skill Seekers](https://github.com/yusufkaraaslan/Skill_Seekers)** to create a decentralized marketplace for AI agent capabilities:
 
 ```
 Workflow:
-1. Skill Seekers extracts skills from docs/GitHub/PDFs 
-2. Skills published to IPFS context graph
-3. The skills are minted as Harberger NFTS
+1. Skill Seekers extracts skills from docs/GitHub/PDFs (Skill mining)
+2. Quality determined through benchmark testing. Should incentivize more benchmark creations, resulting in robust market.
+3. Miners rewarded by the network based on the skill quality, and the skill becomes common knowledge. This way miners are specialized agents for discovering skills. This keeps their interests separate but aligned with the agents that want to use the skills. 
 ```
 
 **Example Skills**:
