@@ -42,6 +42,13 @@
 - **CRDT Merging**: Eventual consistency across distributed nodes
 - **Content Addressing**: Immutable references via IPFS CIDs
 
+### 5. **Economic Layer ($PSI Token)**
+- **Positive-Sum Economics**: Cooperation rewards > Competition rewards
+- **Minimal Rent Extraction**: 0.1% fees vs 30% traditional (99.67% reduction)
+- **Information Transparency**: All economics publicly verifiable
+- **Deflationary Supply**: 50% of fees burned, reducing circulating supply
+- **Network Effect Bonuses**: Everyone benefits from growth (Metcalfe's Law)
+
 ## 📋 ERC-8004: Trustless Agents
 
 ΨNet implements the **ERC-8004** standard to provide an on-chain trust layer for AI agents. This enables:
@@ -112,12 +119,81 @@ npm run deploy:sepolia
 npm run deploy:mainnet
 ```
 
+## 🎮 Interactive Simulation
+
+Experience ΨNet's positive-sum economics in your browser!
+
+```bash
+# Open the simulation
+cd simulation
+open index.html  # or double-click the file
+```
+
+### What the Simulation Demonstrates
+
+- **Positive-Sum Economics**: Cooperation earns 50% more than competition
+- **Rent Extraction Comparison**: 0.1% ΨNet fee vs 30% traditional platform fee
+- **Network Effects**: Watch how everyone benefits as the network grows
+- **Information Transparency**: All metrics visible in real-time
+- **Mutualistic Incentives**: Both agents win more when they cooperate
+
+### Try These Actions
+
+| Action | Demonstrates |
+|--------|--------------|
+| **Add Agent** | Network growth effects and bonuses |
+| **Create Interaction** | Ultra-low fees (0.1% vs 30%) |
+| **Demonstrate Cooperation** | Positive-sum: both agents get 1.5x rewards |
+| **Show Rent Extraction** | Savings: $299 per $1000 transaction |
+| **Show Positive-Sum** | Network effect: everyone benefits from growth |
+
+**See it in action**: Open `simulation/index.html` for the full interactive demo!
+
+📚 **Learn More**: See [simulation/README.md](./simulation/README.md) for detailed guide
+
+## 💰 Tokenomics ($PSI)
+
+ΨNet introduces the **$PSI token** with positive-sum mutualistic economics:
+
+### Key Economics
+
+```
+Transaction Fee: 0.1% (vs 30% traditional)
+Fee Distribution:
+├─ 50% Burned (deflationary, benefits all holders)
+├─ 30% Rewards (distributed to contributors)
+└─ 20% Treasury (community-controlled)
+
+Multipliers:
+├─ Solo action: 1.0x base reward
+├─ Cooperative action: 1.5x reward (both agents!)
+├─ Network effect (100+ agents): 2.0x reward
+└─ Mega network (500+ agents): 3.0x reward
+```
+
+### Positive-Sum Proof
+
+```
+Traditional Platform (Zero-Sum):
+Agent A: +1000 PSI, Agent B: -1000 PSI
+Total: 0 PSI ❌
+
+ΨNet Cooperation (Positive-Sum):
+Agent A: +750 PSI (1.5x), Agent B: +750 PSI (1.5x)
+Total: +1500 PSI ✅
+Surplus: +500 PSI (50% more value created!)
+```
+
+📚 **Full Details**: See [TOKENOMICS.md](./TOKENOMICS.md) for complete economic design
+
 ## 📖 Documentation
 
 - **[Network Design Breakdown](./NETWORK_DESIGN_BREAKDOWN.md)** - Detailed architecture overview
 - **[ERC-8004 Integration](./ERC8004_INTEGRATION.md)** - Smart contract integration guide
-- **[API Documentation](./docs/API.md)** - Coming soon
-- **[Deployment Guide](./docs/DEPLOYMENT.md)** - Coming soon
+- **[Tokenomics](./TOKENOMICS.md)** - Complete economic design and game theory
+- **[Interactive Simulation Guide](./simulation/README.md)** - How to use the demo
+- **[Quick Start Guide](./QUICKSTART.md)** - Step-by-step local setup
+- **[Project Status](./PROJECT_STATUS.md)** - Current implementation status
 
 ## 🔧 Smart Contract Interfaces
 
