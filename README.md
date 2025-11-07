@@ -17,6 +17,7 @@
 - **🎯 Capability-Based Access** - Fine-grained permissions
 - **📊 Context Graphs** - DAG structure with CRDT merging
 - **🤖 AI-Native** - Built for conversations, memories, skills
+- **💰 X402 Payment Protocol** - Cryptocurrency payments for AI context monetization
 
 ## 🚀 Quick Start
 
@@ -90,10 +91,48 @@ is_valid = node.verify_context(context, did.public_key)
 print(f"Valid: {is_valid}")  # True
 ```
 
+## 💰 X402 Payment Protocol
+
+Monetize AI contexts with cryptocurrency payments:
+
+```python
+from psinet_payment import PaymentManager, PaymentMethod, PricingModel
+
+# Create payment manager
+payment_mgr = PaymentManager(node_did=node.did)
+
+# Monetize a context
+requirement = payment_mgr.create_payment_requirement(
+    context_id=context.id,
+    pricing_model=PricingModel.PAY_PER_ACCESS,
+    amount="0.001",  # 0.001 BTC
+    currency=PaymentMethod.BITCOIN,
+    recipient_address="bc1q..."
+)
+
+# Access control enforces payment
+response = payment_mgr.check_payment_for_context(context.id, user_did)
+if response:
+    print(f"HTTP {response.status_code}: Payment Required")
+    print(f"Amount: {response.payment_requirement.amount} BTC")
+```
+
+**Features:**
+- Bitcoin, Ethereum, Lightning Network support
+- Pay-per-access, pay-per-query, subscriptions
+- Payment channels for micropayments
+- Blockchain verification
+- Automatic access control
+
+**Demo:** `python3 examples/demo_payment.py`
+
+See [Payment Protocol Documentation](docs/PAYMENT_PROTOCOL.md) for details.
+
 ## 📚 Documentation
 
 - **[Quick Start Guide](QUICKSTART.md)** - Get running in 3 minutes
 - **[Full Documentation](docs/README.md)** - Complete guide
+- **[Payment Protocol](docs/PAYMENT_PROTOCOL.md)** - X402 payment system
 - **[API Reference](docs/API.md)** - API documentation (coming soon)
 - **[Protocol Specification](docs/PROTOCOL.md)** - Technical spec (coming soon)
 

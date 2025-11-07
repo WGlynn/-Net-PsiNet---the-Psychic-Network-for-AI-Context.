@@ -157,7 +157,21 @@ python3 examples/demo.py
 
 Check out `examples/` for more:
 - `demo.py` - Full feature demonstration
-- More examples coming soon!
+- `demo_simple.py` - Simple demo (no dependencies)
+- `demo_payment.py` - X402 payment protocol demo
+
+### Run Payment Demo
+
+```bash
+python3 examples/demo_payment.py
+```
+
+This demonstrates:
+- Creating paid contexts with cryptocurrency
+- HTTP 402 "Payment Required" responses
+- Payment verification on blockchain
+- Payment channels for micropayments
+- Multiple currencies (Bitcoin, Ethereum, Lightning)
 
 ---
 
