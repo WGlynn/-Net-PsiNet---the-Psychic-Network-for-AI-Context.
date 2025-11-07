@@ -255,6 +255,34 @@ Tax → 40% creator, 40% rewards, 20% treasury
 
 📚 **Full Details**: See [HARBERGER_TAXES.md](./HARBERGER_TAXES.md) for complete technical documentation
 
+### 🎓 AI Skills Marketplace
+
+ΨNet integrates with **[Skill Seekers](https://github.com/yusufkaraaslan/Skill_Seekers)** to create a decentralized marketplace for AI agent capabilities:
+
+```
+Workflow:
+1. Skill Seekers extracts skills from docs/GitHub/PDFs
+2. Skills uploaded to IPFS (context graphs)
+3. Registered as Harberger NFTs (SkillRegistry.sol)
+4. CRPC validates quality
+5. Always for sale, fair pricing, creator royalties
+```
+
+**Example Skills**:
+- "React Expert" (from React docs + GitHub)
+- "Solidity Auditor" (from OpenZeppelin + security guides)
+- "FastAPI Backend" (from FastAPI docs + repos)
+
+**Benefits**:
+- Automatic skill extraction (no manual documentation)
+- Harberger taxation prevents hoarding
+- Quality-verified via CRPC
+- Creators earn 40% of tax forever
+- Skills always liquid (buy instantly)
+- Shapley rewards for referrals
+
+📚 **Full Details**: See [SKILL_SEEKERS_INTEGRATION.md](./SKILL_SEEKERS_INTEGRATION.md)
+
 ## 📖 Documentation
 
 - **[Network Design Breakdown](./NETWORK_DESIGN_BREAKDOWN.md)** - Detailed architecture overview
@@ -262,6 +290,7 @@ Tax → 40% creator, 40% rewards, 20% treasury
 - **[Tokenomics](./TOKENOMICS.md)** - Complete economic design and game theory
 - **[Shapley Referrals](./SHAPLEY_REFERRALS.md)** - Game-theory-based referral system
 - **[Harberger Taxes](./HARBERGER_TAXES.md)** - Self-assessed taxation for NFTs
+- **[Skill Seekers Integration](./SKILL_SEEKERS_INTEGRATION.md)** - AI skills marketplace integration
 - **[CRPC Protocol](./CRPC.md)** - Commit-Reveal Pairwise Comparison for AI verification
 - **[Interactive Simulation Guide](./simulation/README.md)** - How to use the demo
 - **[Quick Start Guide](./QUICKSTART.md)** - Step-by-step local setup
