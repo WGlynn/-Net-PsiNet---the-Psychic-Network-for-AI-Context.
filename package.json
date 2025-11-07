@@ -1,0 +1,55 @@
+{
+  "name": "psinet-erc8004",
+  "version": "1.0.0",
+  "description": "ERC-8004 Trustless Agents implementation for ΨNet (PsiNet)",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:coverage": "hardhat coverage",
+    "deploy:localhost": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:sepolia": "hardhat run scripts/deploy.js --network sepolia",
+    "deploy:mainnet": "hardhat run scripts/deploy.js --network mainnet",
+    "node": "hardhat node",
+    "clean": "hardhat clean",
+    "verify": "hardhat verify"
+  },
+  "keywords": [
+    "ethereum",
+    "erc8004",
+    "ai-agents",
+    "trustless",
+    "reputation",
+    "identity",
+    "validation",
+    "psinet",
+    "decentralized",
+    "blockchain"
+  ],
+  "author": "ΨNet Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
+    "@openzeppelin/hardhat-upgrades": "^2.4.3",
+    "chai": "^4.3.10",
+    "dotenv": "^16.3.1",
+    "hardhat": "^2.19.4",
+    "hardhat-gas-reporter": "^1.0.9",
+    "solidity-coverage": "^0.8.5"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1",
+    "ethers": "^6.10.0",
+    "ipfs-http-client": "^60.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WGlynn/-Net-PsiNet---the-Psychic-Network-for-AI-Context."
+  }
+}
