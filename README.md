@@ -18,6 +18,7 @@
 - **📊 Context Graphs** - DAG structure with CRDT merging
 - **🤖 AI-Native** - Built for conversations, memories, skills
 - **💰 X402 Payment Protocol** - Cryptocurrency payments for AI context monetization
+- **⚡ Nostr Integration** - Publish AI contexts to Nostr relays with Lightning zaps
 
 ## 🚀 Quick Start
 
@@ -128,11 +129,53 @@ if response:
 
 See [Payment Protocol Documentation](docs/PAYMENT_PROTOCOL.md) for details.
 
+## ⚡ Nostr Protocol Integration
+
+Distribute AI contexts across the Nostr decentralized network:
+
+```python
+from psinet_nostr import NostrClient, PsiNetNostrBridge
+
+# Connect to Nostr relays
+nostr_client = NostrClient(relays=[
+    "wss://relay.damus.io",
+    "wss://relay.nostr.band"
+])
+
+# Create bridge
+bridge = PsiNetNostrBridge(node, nostr_client)
+
+# Publish context to Nostr
+event = bridge.publish_context(conversation)
+print(f"Published to Nostr: {event.id}")
+
+# Lightning zap for payment
+bridge.publish_zap_request(
+    amount_sats=1000,
+    recipient_pubkey=recipient,
+    context_id=context.id,
+    comment="⚡ Great AI conversation!"
+)
+```
+
+**Features:**
+- Publish contexts to Nostr relays (decentralized distribution)
+- Nostr key integration with PsiNet DIDs
+- Lightning zaps (NIP-57) for micropayments
+- Custom event kinds for AI contexts (30078-30083)
+- Real-time event propagation via WebSockets
+- Global relay network
+
+**Demo:** `python3 examples/demo_nostr.py`
+
+See [Nostr Integration Documentation](docs/NOSTR_INTEGRATION.md) for details.
+
 ## 📚 Documentation
 
 - **[Quick Start Guide](QUICKSTART.md)** - Get running in 3 minutes
 - **[Full Documentation](docs/README.md)** - Complete guide
 - **[Payment Protocol](docs/PAYMENT_PROTOCOL.md)** - X402 payment system
+- **[Nostr Integration](docs/NOSTR_INTEGRATION.md)** - Nostr protocol integration
 - **[API Reference](docs/API.md)** - API documentation (coming soon)
 - **[Protocol Specification](docs/PROTOCOL.md)** - Technical spec (coming soon)
 

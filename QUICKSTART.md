@@ -159,6 +159,7 @@ Check out `examples/` for more:
 - `demo.py` - Full feature demonstration
 - `demo_simple.py` - Simple demo (no dependencies)
 - `demo_payment.py` - X402 payment protocol demo
+- `demo_nostr.py` - Nostr integration demo
 
 ### Run Payment Demo
 
@@ -172,6 +173,20 @@ This demonstrates:
 - Payment verification on blockchain
 - Payment channels for micropayments
 - Multiple currencies (Bitcoin, Ethereum, Lightning)
+
+### Run Nostr Demo
+
+```bash
+python3 examples/demo_nostr.py
+```
+
+This demonstrates:
+- Publishing AI contexts to Nostr relays
+- Nostr key generation (npub/nsec)
+- Converting Nostr keys to PsiNet DIDs
+- Lightning zaps for micropayments (NIP-57)
+- Text notes and event publishing
+- Decentralized AI context distribution
 
 ---
 
