@@ -51,6 +51,12 @@ contract SkillRegistry is HarbergerNFT {
         uint256 usageCount; // How many times licensed/used
         uint256 qualityScore; // 0-100 from CRPC validation
         bool verified; // CRPC verified
+        // Context Quality Incentives
+        uint256 compressionRatio; // 1-100 (higher = better compression)
+        uint256 originalSizeBytes; // Original uncompressed size
+        uint256 compressedSizeBytes; // Compressed size
+        uint256 reliabilitySuccessCount; // Successful validations
+        uint256 reliabilityFailureCount; // Failed validations
     }
 
     enum SkillType {
@@ -95,6 +101,18 @@ contract SkillRegistry is HarbergerNFT {
     );
     event SkillVerified(uint256 indexed skillId, uint256 qualityScore);
     event SkillUsed(uint256 indexed skillId, address indexed user);
+    event CompressionUpdated(
+        uint256 indexed skillId,
+        uint256 compressionRatio,
+        uint256 originalSize,
+        uint256 compressedSize
+    );
+    event ReliabilityRecorded(
+        uint256 indexed skillId,
+        bool success,
+        uint256 successCount,
+        uint256 failureCount
+    );
 
     constructor(
         address _psiToken,
@@ -195,14 +213,82 @@ contract SkillRegistry is HarbergerNFT {
     }
 
     /**
+     * @dev Update compression metrics for a skill
+     * Better compression = lower prices = more competitive
+     * Only owner can update compression data
+     */
+    function updateCompression(
+        uint256 skillId,
+        uint256 originalSize,
+        uint256 compressedSize
+    ) external {
+        require(_exists(skillId), "Skill does not exist");
+        require(ownerOf(skillId) == msg.sender, "Not owner");
+        require(originalSize > 0 && compressedSize > 0, "Invalid sizes");
+        require(compressedSize <= originalSize, "Compressed must be <= original");
+
+        Skill storage skill = skills[skillId];
+        skill.originalSizeBytes = originalSize;
+        skill.compressedSizeBytes = compressedSize;
+
+        // Calculate compression ratio (0-100 scale)
+        // 10x compression (compress to 10%) = ratio 100
+        // 2x compression (compress to 50%) = ratio 50
+        // 1x compression (no compression) = ratio 0
+        uint256 compressionPercent = ((originalSize - compressedSize) * 100) / originalSize;
+        skill.compressionRatio = compressionPercent;
+
+        emit CompressionUpdated(skillId, skill.compressionRatio, originalSize, compressedSize);
+    }
+
+    /**
+     * @dev Record validation result for reliability tracking
+     * This is called by validators or the owner after testing
+     * High reliability = lower prices = more competitive
+     */
+    function recordValidation(uint256 skillId, bool success) external {
+        require(_exists(skillId), "Skill does not exist");
+        // Only owner or validators can record validation results
+        // In production, this should be restricted to ValidationRegistry
+        require(
+            ownerOf(skillId) == msg.sender || msg.sender == address(this),
+            "Not authorized"
+        );
+
+        Skill storage skill = skills[skillId];
+
+        if (success) {
+            skill.reliabilitySuccessCount++;
+        } else {
+            skill.reliabilityFailureCount++;
+        }
+
+        emit ReliabilityRecorded(
+            skillId,
+            success,
+            skill.reliabilitySuccessCount,
+            skill.reliabilityFailureCount
+        );
+    }
+
+    /**
      * @dev Calculate quality-weighted price for a skill
-     * Better quality = lower effective price = more competitive
+     * Better quality/compression/reliability = lower effective price = more competitive
      *
      * Quality multiplier (0.5x to 1.5x):
      *   Quality 100 → 0.5x, Quality 50 → 1x, Quality 0 → 1.5x
      *
      * Usage bonus (0.8x to 1.2x):
      *   High usage (100+) → 0.8x, Low usage (0) → 1.2x
+     *
+     * Compression bonus (0.7x to 1.3x):
+     *   High compression (100) → 0.7x, Medium (50) → 1x, Low (0) → 1.3x
+     *
+     * Reliability bonus (0.6x to 1.4x):
+     *   High reliability (100%) → 0.6x, Medium (50%) → 1x, Low (0%) → 1.4x
+     *
+     * Best case: 0.5 × 0.8 × 0.7 × 0.6 = 0.168x (83% discount!)
+     * Worst case: 1.5 × 1.2 × 1.3 × 1.4 = 3.276x (228% premium)
      */
     function getQualityWeightedPrice(uint256 skillId) public view returns (uint256) {
         require(_exists(skillId), "Skill does not exist");
@@ -221,8 +307,22 @@ contract SkillRegistry is HarbergerNFT {
             usageMultiplier = 100;
         }
 
-        // Apply multipliers
-        uint256 effectivePrice = (basePrice * qualityMultiplier * usageMultiplier) / (100 * 100);
+        // Compression bonus (70-130%)
+        uint256 compressionMultiplier = 130 - (skill.compressionRatio * 6 / 10);
+        if (compressionMultiplier < 70) compressionMultiplier = 70;
+        if (compressionMultiplier > 130) compressionMultiplier = 130;
+
+        // Reliability bonus (60-140%)
+        uint256 reliabilityMultiplier = 100;
+        uint256 totalValidations = skill.reliabilitySuccessCount + skill.reliabilityFailureCount;
+        if (totalValidations > 0) {
+            uint256 reliabilityPercent = (skill.reliabilitySuccessCount * 100) / totalValidations;
+            // Reliability 100% → 60, Reliability 50% → 100, Reliability 0% → 140
+            reliabilityMultiplier = 140 - (reliabilityPercent * 8 / 10);
+        }
+
+        // Apply all multipliers
+        uint256 effectivePrice = (basePrice * qualityMultiplier * usageMultiplier * compressionMultiplier * reliabilityMultiplier) / (100 * 100 * 100 * 100);
 
         return effectivePrice;
     }
@@ -334,6 +434,74 @@ contract SkillRegistry is HarbergerNFT {
         returns (uint256[] memory)
     {
         return _userSkills[creator];
+    }
+
+    /**
+     * @dev Get compression metrics for a skill
+     * Returns (compressionRatio, originalSize, compressedSize)
+     */
+    function getCompressionMetrics(uint256 skillId)
+        external
+        view
+        returns (uint256, uint256, uint256)
+    {
+        require(_exists(skillId), "Skill does not exist");
+        Skill storage skill = skills[skillId];
+        return (skill.compressionRatio, skill.originalSizeBytes, skill.compressedSizeBytes);
+    }
+
+    /**
+     * @dev Get reliability metrics for a skill
+     * Returns (reliabilityPercent, successCount, failureCount)
+     */
+    function getReliabilityMetrics(uint256 skillId)
+        external
+        view
+        returns (uint256, uint256, uint256)
+    {
+        require(_exists(skillId), "Skill does not exist");
+        Skill storage skill = skills[skillId];
+
+        uint256 totalValidations = skill.reliabilitySuccessCount + skill.reliabilityFailureCount;
+        uint256 reliabilityPercent = totalValidations > 0
+            ? (skill.reliabilitySuccessCount * 100) / totalValidations
+            : 100; // Default to 100% if no validations yet
+
+        return (reliabilityPercent, skill.reliabilitySuccessCount, skill.reliabilityFailureCount);
+    }
+
+    /**
+     * @dev Get comprehensive quality breakdown for a skill
+     * Returns all pricing components for transparency
+     */
+    function getQualityBreakdown(uint256 skillId)
+        external
+        view
+        returns (
+            uint256 basePrice,
+            uint256 qualityScore,
+            uint256 compressionRatio,
+            uint256 reliabilityPercent,
+            uint256 usageCount,
+            uint256 finalPrice
+        )
+    {
+        require(_exists(skillId), "Skill does not exist");
+        Skill storage skill = skills[skillId];
+
+        basePrice = assets[skillId].selfAssessedValue / 10;
+        qualityScore = skill.qualityScore;
+        compressionRatio = skill.compressionRatio;
+        usageCount = skill.usageCount;
+
+        uint256 totalValidations = skill.reliabilitySuccessCount + skill.reliabilityFailureCount;
+        reliabilityPercent = totalValidations > 0
+            ? (skill.reliabilitySuccessCount * 100) / totalValidations
+            : 100;
+
+        finalPrice = getQualityWeightedPrice(skillId);
+
+        return (basePrice, qualityScore, compressionRatio, reliabilityPercent, usageCount, finalPrice);
     }
 
     /**
