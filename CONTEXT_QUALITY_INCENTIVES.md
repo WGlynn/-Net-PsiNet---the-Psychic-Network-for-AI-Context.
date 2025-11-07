@@ -2,7 +2,94 @@
 
 **Date**: 2025-11-07
 **Purpose**: Design economic mechanisms to promote high-quality, compressed, well-engineered context
-**Status**: DESIGN PROPOSAL
+**Status**: PARTIALLY IMPLEMENTED
+
+**Implementation Status**:
+- ✅ Quality-weighted pricing: **IMPLEMENTED** in SkillRegistry.sol
+- ⏳ Compression bounties: Design complete, awaiting implementation
+- ⏳ Reliability bonds: Design complete, awaiting implementation
+- ⏳ Quality badges: Design complete, awaiting implementation
+- ⏳ Discovery ranking: Design complete, awaiting implementation
+
+---
+
+## Current Implementation: Quality-Weighted Pricing in SkillRegistry
+
+### Overview
+
+The `SkillRegistry.sol` contract now includes quality-weighted pricing for skill licensing. This creates immediate economic incentives for high-quality, well-used skills.
+
+### Implementation Details
+
+**Location**: `contracts/SkillRegistry.sol:207-228`
+
+**Function**: `getQualityWeightedPrice(uint256 skillId)`
+
+```solidity
+function getQualityWeightedPrice(uint256 skillId) public view returns (uint256) {
+    Skill storage skill = skills[skillId];
+    uint256 basePrice = assets[skillId].selfAssessedValue / 10; // 10% of value
+
+    // Quality multiplier (50-150%)
+    uint256 qualityMultiplier = 150 - (skill.qualityScore / 2);
+
+    // Usage/reliability bonus (80-120%)
+    uint256 usageMultiplier = 120;
+    if (skill.usageCount > 100) {
+        usageMultiplier = 80; // Popular, proven skills get discount
+    } else if (skill.usageCount > 10) {
+        usageMultiplier = 100;
+    }
+
+    // Apply multipliers
+    uint256 effectivePrice = (basePrice * qualityMultiplier * usageMultiplier) / (100 * 100);
+
+    return effectivePrice;
+}
+```
+
+### Price Examples
+
+**Scenario 1: High Quality, Popular Skill**
+- Quality Score: 100
+- Usage Count: 150
+- Base Price: 1000 PSI
+- Quality Multiplier: 0.5x (excellent quality)
+- Usage Multiplier: 0.8x (proven popularity)
+- **Final Price**: 400 PSI (60% discount!)
+
+**Scenario 2: Low Quality, Unused Skill**
+- Quality Score: 20
+- Usage Count: 0
+- Base Price: 1000 PSI
+- Quality Multiplier: 1.4x (poor quality)
+- Usage Multiplier: 1.2x (unproven)
+- **Final Price**: 1680 PSI (68% premium!)
+
+**Scenario 3: Medium Quality, Some Usage**
+- Quality Score: 60
+- Usage Count: 25
+- Base Price: 1000 PSI
+- Quality Multiplier: 1.2x
+- Usage Multiplier: 1.0x
+- **Final Price**: 1200 PSI (20% premium)
+
+### Market Dynamics
+
+This creates a self-reinforcing quality cycle:
+
+1. **High quality** → Lower price → More licenses → More usage
+2. **More usage** → Lower price (proven track record) → Even more licenses
+3. **More licenses** → More revenue despite lower per-license price
+4. **Low quality** → Higher price → Fewer licenses → Less usage → Even higher relative price
+
+**Result**: High-quality skills earn more total revenue through volume, low-quality skills earn less.
+
+### Integration
+
+The quality-weighted pricing is automatically used in:
+- `licenseSkill()` - All skill licenses use quality pricing
+- Frontend can call `getQualityWeightedPrice()` to show users the effective price before purchase
 
 ---
 

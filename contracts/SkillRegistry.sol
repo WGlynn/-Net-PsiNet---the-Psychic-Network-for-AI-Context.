@@ -195,14 +195,49 @@ contract SkillRegistry is HarbergerNFT {
     }
 
     /**
+     * @dev Calculate quality-weighted price for a skill
+     * Better quality = lower effective price = more competitive
+     *
+     * Quality multiplier (0.5x to 1.5x):
+     *   Quality 100 → 0.5x, Quality 50 → 1x, Quality 0 → 1.5x
+     *
+     * Usage bonus (0.8x to 1.2x):
+     *   High usage (100+) → 0.8x, Low usage (0) → 1.2x
+     */
+    function getQualityWeightedPrice(uint256 skillId) public view returns (uint256) {
+        require(_exists(skillId), "Skill does not exist");
+
+        Skill storage skill = skills[skillId];
+        uint256 basePrice = assets[skillId].selfAssessedValue / 10; // 10% of value
+
+        // Quality multiplier (50-150%)
+        uint256 qualityMultiplier = 150 - (skill.qualityScore / 2);
+
+        // Usage/reliability bonus (80-120%)
+        uint256 usageMultiplier = 120;
+        if (skill.usageCount > 100) {
+            usageMultiplier = 80; // Popular, proven skills get discount
+        } else if (skill.usageCount > 10) {
+            usageMultiplier = 100;
+        }
+
+        // Apply multipliers
+        uint256 effectivePrice = (basePrice * qualityMultiplier * usageMultiplier) / (100 * 100);
+
+        return effectivePrice;
+    }
+
+    /**
      * @dev License a skill for use (doesn't transfer ownership)
-     * User pays to use the skill for LICENSE_DURATION
+     * User pays quality-weighted price for LICENSE_DURATION
      */
     function licenseSkill(uint256 skillId) external nonReentrant {
         require(_exists(skillId), "Skill does not exist");
 
         Skill storage skill = skills[skillId];
-        uint256 licensePrice = assets[skillId].selfAssessedValue / 10; // 10% of value
+
+        // Use quality-weighted pricing
+        uint256 licensePrice = getQualityWeightedPrice(skillId);
 
         // Transfer PSI from licensee to skill owner
         psiToken.transferFrom(msg.sender, ownerOf(skillId), licensePrice);
