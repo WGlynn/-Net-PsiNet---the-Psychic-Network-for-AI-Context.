@@ -238,11 +238,12 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## 🔗 Resources
 
-- **ERC-8004 Specification**: https://eips.ethereum.org/EIPS/eip-8004
+- **ERC-8004 Specification**: https: ps://eips.ethereum.org/EIPS/eip-8004
 - **OpenZeppelin Contracts**: https://docs.openzeppelin.com/contracts/
 - **Hardhat Documentation**: https://hardhat.org/
 - **IPFS Documentation**: https://docs.ipfs.tech/
 - **Arweave Documentation**: https://docs.arweave.org/
+- **CRDT Documentation** https://crdt.tech/
 
 ## 📞 Contact & Community
 
