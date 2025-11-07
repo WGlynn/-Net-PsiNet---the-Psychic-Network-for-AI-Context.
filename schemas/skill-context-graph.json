@@ -1,0 +1,393 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ΨNet Skill Context Graph Schema",
+  "description": "Schema for AI agent skills extracted via Skill Seekers and stored in ΨNet context graphs",
+  "type": "object",
+  "required": ["skillId", "metadata", "content", "provenance", "ipfsHash"],
+  "properties": {
+    "skillId": {
+      "type": "string",
+      "description": "Unique identifier for the skill (from SkillRegistry contract)"
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["name", "description", "tags", "skillType", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable skill name (e.g., 'React Expert')",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the skill provides",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "tags": {
+          "type": "array",
+          "description": "Searchable tags for skill discovery",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "maxItems": 10,
+          "uniqueItems": true
+        },
+        "skillType": {
+          "type": "string",
+          "enum": ["DOCUMENTATION", "CODE_ANALYSIS", "PDF_KNOWLEDGE", "UNIFIED"],
+          "description": "Source type of the skill"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Semantic version of the skill package"
+        },
+        "language": {
+          "type": "string",
+          "description": "Primary programming language (if applicable)",
+          "examples": ["python", "javascript", "solidity", "rust"]
+        },
+        "framework": {
+          "type": "string",
+          "description": "Primary framework (if applicable)",
+          "examples": ["react", "vue", "django", "fastapi", "godot"]
+        },
+        "difficulty": {
+          "type": "string",
+          "enum": ["beginner", "intermediate", "advanced", "expert"],
+          "description": "Skill complexity level"
+        }
+      }
+    },
+    "content": {
+      "type": "object",
+      "description": "The actual skill content extracted by Skill Seekers",
+      "required": ["apis", "examples"],
+      "properties": {
+        "apis": {
+          "type": "array",
+          "description": "Extracted API signatures",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Function/class/method name"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["function", "class", "method", "constant", "variable"]
+              },
+              "signature": {
+                "type": "string",
+                "description": "Full signature (e.g., 'def foo(x: int) -> str')"
+              },
+              "description": {
+                "type": "string",
+                "description": "What this API does"
+              },
+              "parameters": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {"type": "string"},
+                    "type": {"type": "string"},
+                    "description": {"type": "string"},
+                    "optional": {"type": "boolean"},
+                    "default": {"type": "string"}
+                  }
+                }
+              },
+              "returnType": {
+                "type": "string",
+                "description": "Return type of the function"
+              },
+              "examples": {
+                "type": "array",
+                "description": "Usage examples for this API",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "examples": {
+          "type": "array",
+          "description": "Code examples extracted from documentation",
+          "items": {
+            "type": "object",
+            "required": ["code"],
+            "properties": {
+              "title": {
+                "type": "string",
+                "description": "Example title"
+              },
+              "description": {
+                "type": "string",
+                "description": "What this example demonstrates"
+              },
+              "code": {
+                "type": "string",
+                "description": "The actual code snippet"
+              },
+              "language": {
+                "type": "string",
+                "description": "Code language"
+              },
+              "output": {
+                "type": "string",
+                "description": "Expected output (if applicable)"
+              }
+            }
+          }
+        },
+        "documentation": {
+          "type": "array",
+          "description": "Categorized documentation sections",
+          "items": {
+            "type": "object",
+            "required": ["category", "content"],
+            "properties": {
+              "category": {
+                "type": "string",
+                "description": "Documentation category",
+                "examples": ["quickstart", "api-reference", "tutorial", "concepts"]
+              },
+              "content": {
+                "type": "string",
+                "description": "Documentation content (markdown format)"
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "description": "Original source URL"
+              }
+            }
+          }
+        },
+        "codeSnippets": {
+          "type": "object",
+          "description": "Reusable code snippets by category",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {"type": "string"},
+                "code": {"type": "string"},
+                "description": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Where the skill data came from",
+      "required": ["sources", "extractedAt", "extractorVersion"],
+      "properties": {
+        "sources": {
+          "type": "array",
+          "description": "All sources used to build this skill",
+          "items": {
+            "type": "object",
+            "required": ["type", "url"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["documentation", "github", "pdf"],
+                "description": "Source type"
+              },
+              "url": {
+                "type": "string",
+                "description": "Source URL or identifier"
+              },
+              "scrapedAt": {
+                "type": "string",
+                "format": "date-time",
+                "description": "When this source was scraped"
+              },
+              "hash": {
+                "type": "string",
+                "description": "Hash of source content (for verification)"
+              }
+            }
+          },
+          "minItems": 1
+        },
+        "extractedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When Skill Seekers extracted this skill"
+        },
+        "extractorVersion": {
+          "type": "string",
+          "description": "Version of Skill Seekers used"
+        },
+        "conflicts": {
+          "type": "array",
+          "description": "Detected conflicts between sources",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {"type": "string"},
+              "description": {"type": "string"},
+              "sources": {
+                "type": "array",
+                "items": {"type": "string"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "ipfsHash": {
+      "type": "string",
+      "description": "IPFS hash of this skill package (content-addressed)",
+      "pattern": "^Qm[a-zA-Z0-9]{44}$"
+    },
+    "onChainData": {
+      "type": "object",
+      "description": "References to on-chain data",
+      "properties": {
+        "skillRegistryId": {
+          "type": "string",
+          "description": "Token ID in SkillRegistry contract"
+        },
+        "owner": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "Ethereum address of current owner"
+        },
+        "creator": {
+          "type": "string",
+          "pattern": "^0x[a-fA-F0-9]{40}$",
+          "description": "Ethereum address of original creator"
+        },
+        "selfAssessedValue": {
+          "type": "string",
+          "description": "Current self-assessed value in PSI (wei format)"
+        },
+        "qualityScore": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "CRPC-validated quality score"
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "Whether skill has been CRPC verified"
+        },
+        "usageCount": {
+          "type": "number",
+          "description": "Number of times skill has been licensed/used"
+        }
+      }
+    },
+    "relationships": {
+      "type": "object",
+      "description": "Relationships to other skills and agents",
+      "properties": {
+        "dependencies": {
+          "type": "array",
+          "description": "Skills this skill depends on",
+          "items": {
+            "type": "object",
+            "properties": {
+              "skillId": {"type": "string"},
+              "name": {"type": "string"},
+              "required": {"type": "boolean"}
+            }
+          }
+        },
+        "relatedSkills": {
+          "type": "array",
+          "description": "Skills commonly used together",
+          "items": {
+            "type": "object",
+            "properties": {
+              "skillId": {"type": "string"},
+              "name": {"type": "string"},
+              "relationship": {"type": "string"}
+            }
+          }
+        },
+        "agentId": {
+          "type": "string",
+          "description": "ERC-8004 agent identity associated with this skill"
+        }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "description": "Skill performance metrics",
+      "properties": {
+        "averageExecutionTime": {
+          "type": "number",
+          "description": "Average time to execute tasks with this skill (ms)"
+        },
+        "successRate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Percentage of successful task completions"
+        },
+        "userRating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5,
+          "description": "Average user rating"
+        },
+        "totalExecutions": {
+          "type": "number",
+          "description": "Total number of times skill has been executed"
+        }
+      }
+    },
+    "encryption": {
+      "type": "object",
+      "description": "Encryption metadata if skill is encrypted",
+      "properties": {
+        "encrypted": {
+          "type": "boolean",
+          "description": "Whether content is encrypted"
+        },
+        "algorithm": {
+          "type": "string",
+          "description": "Encryption algorithm used",
+          "examples": ["AES-256-GCM", "ChaCha20-Poly1305"]
+        },
+        "accessControl": {
+          "type": "string",
+          "enum": ["public", "licensed", "private"],
+          "description": "Who can access this skill"
+        },
+        "capabilityTokenRequired": {
+          "type": "boolean",
+          "description": "Whether capability token is required for access"
+        }
+      }
+    },
+    "signature": {
+      "type": "string",
+      "description": "Ed25519 signature of skill package by creator (for verification)"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this skill graph was created"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this skill graph was last updated"
+    }
+  }
+}

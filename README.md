@@ -42,6 +42,13 @@
 - **CRDT Merging**: Eventual consistency across distributed nodes
 - **Content Addressing**: Immutable references via IPFS CIDs
 
+### 5. **Economic Layer ($PSI Token)**
+- **Positive-Sum Economics**: Cooperation rewards > Competition rewards
+- **Minimal Rent Extraction**: 0.1% fees vs 30% traditional (99.67% reduction)
+- **Information Transparency**: All economics publicly verifiable
+- **Deflationary Supply**: 50% of fees burned, reducing circulating supply
+- **Network Effect Bonuses**: Everyone benefits from growth (Metcalfe's Law)
+
 ## 📋 ERC-8004: Trustless Agents
 
 ΨNet implements the **ERC-8004** standard to provide an on-chain trust layer for AI agents. This enables:
@@ -112,12 +119,182 @@ npm run deploy:sepolia
 npm run deploy:mainnet
 ```
 
+## 🎮 Interactive Simulation
+
+Experience ΨNet's positive-sum economics in your browser!
+
+```bash
+# Open the simulation
+cd simulation
+open index.html  # or double-click the file
+```
+
+### What the Simulation Demonstrates
+
+- **Positive-Sum Economics**: Cooperation earns 50% more than competition
+- **Rent Extraction Comparison**: 0.1% ΨNet fee vs 30% traditional platform fee
+- **Network Effects**: Watch how everyone benefits as the network grows
+- **Information Transparency**: All metrics visible in real-time
+- **Mutualistic Incentives**: Both agents win more when they cooperate
+
+### Try These Actions
+
+| Action | Demonstrates |
+|--------|--------------|
+| **Add Agent** | Network growth effects and bonuses |
+| **Create Interaction** | Ultra-low fees (0.1% vs 30%) |
+| **Demonstrate Cooperation** | Positive-sum: both agents get 1.5x rewards |
+| **Show Rent Extraction** | Savings: $299 per $1000 transaction |
+| **Show Positive-Sum** | Network effect: everyone benefits from growth |
+
+**See it in action**: Open `simulation/index.html` for the full interactive demo!
+
+📚 **Learn More**: See [simulation/README.md](./simulation/README.md) for detailed guide
+
+## 💰 Tokenomics ($PSI)
+
+ΨNet introduces the **$PSI token** with positive-sum mutualistic economics:
+
+### Key Economics
+
+```
+Transaction Fee: 0.1% (vs 30% traditional)
+Fee Distribution:
+├─ 50% Burned (deflationary, benefits all holders)
+├─ 30% Rewards (distributed to contributors)
+└─ 20% Treasury (community-controlled)
+
+Multipliers:
+├─ Solo action: 1.0x base reward
+├─ Cooperative action: 1.5x reward (both agents!)
+├─ Network effect (100+ agents): 2.0x reward
+└─ Mega network (500+ agents): 3.0x reward
+```
+
+### Positive-Sum Proof
+
+```
+Traditional Platform (Zero-Sum):
+Agent A: +1000 PSI, Agent B: -1000 PSI
+Total: 0 PSI ❌
+
+ΨNet Cooperation (Positive-Sum):
+Agent A: +750 PSI (1.5x), Agent B: +750 PSI (1.5x)
+Total: +1500 PSI ✅
+Surplus: +500 PSI (50% more value created!)
+```
+
+### 🎯 Shapley Value Referrals
+
+ΨNet implements the **world's first game-theory-based referral system** using Shapley values:
+
+```
+Traditional Referrals:
+Alice refers Bob → Only Alice gets $5
+Bob refers Charlie → Only Bob gets $5
+❌ Zero-sum, shallow incentives
+
+ΨNet Shapley Referrals:
+Alice refers Bob → BOTH get 50 PSI!
+Bob refers Charlie → Everyone gets coalition bonuses
+Alice → Bob → Charlie → Diana → Eve
+
+Alice earns: 420 PSI (42x more than flat rate!)
+✅ Positive-sum, exponential growth
+```
+
+**Key Innovation**: Two-layer rewards
+1. **Local Fairness**: Referrer and referee split immediate reward 50/50
+2. **Global Fairness**: Entire chain earns retroactive bonuses as network grows
+
+**Benefits**:
+- Referees benefit (not just referrers!)
+- Deep chains earn 40x+ more than flat rate
+- Helping others succeed increases your own earnings
+- Quality > Quantity (engaged users boost everyone's rewards)
+
+📚 **Full Details**: See [TOKENOMICS.md](./TOKENOMICS.md) for complete economic design and [SHAPLEY_REFERRALS.md](./SHAPLEY_REFERRALS.md) for technical implementation
+
+### 🏛️ Harberger Tax NFTs
+
+ΨNet implements **self-assessed taxation** (Harberger taxes) for agent identities and validator positions:
+
+```
+Traditional NFTs:
+@GPT4 identity → Bought and hoarded
+Never used, pure speculation
+No ongoing creator revenue
+Market illiquid
+❌ Rent extraction
+
+ΨNet Harberger NFTs:
+@GPT4 identity → Self-assessed at 100,000 PSI
+Owner pays 5,000 PSI/year tax (5%)
+Anyone can buy for 100,000 PSI instantly
+Tax → 40% creator, 40% rewards, 20% treasury
+✅ Productive use encouraged
+```
+
+**Core Mechanism**:
+1. **Self-Assessment**: Owner declares NFT value
+2. **Continuous Tax**: Pay 5% annually on declared value
+3. **Always For Sale**: Anyone can buy at that price (forced sale!)
+
+**Benefits**:
+- Prevents name squatting and hoarding
+- Ensures productive use (must earn to offset tax)
+- Continuous creator royalties (sustainable income!)
+- Always-liquid markets (instant transactions)
+- Honest price discovery (over/undervalue both irrational)
+- Meritocratic validator positions (underperformers get bought out)
+
+**Applications**:
+- **Agent Identities**: Premium names always contestable
+- **Validator Positions**: CRPC validators always replaceable by better performers
+- **Context Storage Rights**: Valuable data must be actively used
+
+📚 **Full Details**: See [HARBERGER_TAXES.md](./HARBERGER_TAXES.md) for complete technical documentation
+
+### 🎓 AI Skills Marketplace
+
+ΨNet integrates with **[Skill Seekers](https://github.com/yusufkaraaslan/Skill_Seekers)** to create a decentralized marketplace for AI agent capabilities:
+
+```
+Workflow:
+1. Skill Seekers extracts skills from docs/GitHub/PDFs
+2. Skills uploaded to IPFS (context graphs)
+3. Registered as Harberger NFTs (SkillRegistry.sol)
+4. CRPC validates quality
+5. Always for sale, fair pricing, creator royalties
+```
+
+**Example Skills**:
+- "React Expert" (from React docs + GitHub)
+- "Solidity Auditor" (from OpenZeppelin + security guides)
+- "FastAPI Backend" (from FastAPI docs + repos)
+
+**Benefits**:
+- Automatic skill extraction (no manual documentation)
+- Harberger taxation prevents hoarding
+- Quality-verified via CRPC
+- Creators earn 40% of tax forever
+- Skills always liquid (buy instantly)
+- Shapley rewards for referrals
+
+📚 **Full Details**: See [SKILL_SEEKERS_INTEGRATION.md](./SKILL_SEEKERS_INTEGRATION.md)
+
 ## 📖 Documentation
 
 - **[Network Design Breakdown](./NETWORK_DESIGN_BREAKDOWN.md)** - Detailed architecture overview
 - **[ERC-8004 Integration](./ERC8004_INTEGRATION.md)** - Smart contract integration guide
-- **[API Documentation](./docs/API.md)** - Coming soon
-- **[Deployment Guide](./docs/DEPLOYMENT.md)** - Coming soon
+- **[Tokenomics](./TOKENOMICS.md)** - Complete economic design and game theory
+- **[Shapley Referrals](./SHAPLEY_REFERRALS.md)** - Game-theory-based referral system
+- **[Harberger Taxes](./HARBERGER_TAXES.md)** - Self-assessed taxation for NFTs
+- **[Skill Seekers Integration](./SKILL_SEEKERS_INTEGRATION.md)** - AI skills marketplace integration
+- **[CRPC Protocol](./CRPC.md)** - Commit-Reveal Pairwise Comparison for AI verification
+- **[Interactive Simulation Guide](./simulation/README.md)** - How to use the demo
+- **[Quick Start Guide](./QUICKSTART.md)** - Step-by-step local setup
+- **[Project Status](./PROJECT_STATUS.md)** - Current implementation status
 
 ## 🔧 Smart Contract Interfaces
 
