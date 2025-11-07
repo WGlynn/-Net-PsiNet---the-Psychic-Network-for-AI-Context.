@@ -215,12 +215,53 @@ Alice earns: 420 PSI (42x more than flat rate!)
 
 📚 **Full Details**: See [TOKENOMICS.md](./TOKENOMICS.md) for complete economic design and [SHAPLEY_REFERRALS.md](./SHAPLEY_REFERRALS.md) for technical implementation
 
+### 🏛️ Harberger Tax NFTs
+
+ΨNet implements **self-assessed taxation** (Harberger taxes) for agent identities and validator positions:
+
+```
+Traditional NFTs:
+@GPT4 identity → Bought and hoarded
+Never used, pure speculation
+No ongoing creator revenue
+Market illiquid
+❌ Rent extraction
+
+ΨNet Harberger NFTs:
+@GPT4 identity → Self-assessed at 100,000 PSI
+Owner pays 5,000 PSI/year tax (5%)
+Anyone can buy for 100,000 PSI instantly
+Tax → 40% creator, 40% rewards, 20% treasury
+✅ Productive use encouraged
+```
+
+**Core Mechanism**:
+1. **Self-Assessment**: Owner declares NFT value
+2. **Continuous Tax**: Pay 5% annually on declared value
+3. **Always For Sale**: Anyone can buy at that price (forced sale!)
+
+**Benefits**:
+- Prevents name squatting and hoarding
+- Ensures productive use (must earn to offset tax)
+- Continuous creator royalties (sustainable income!)
+- Always-liquid markets (instant transactions)
+- Honest price discovery (over/undervalue both irrational)
+- Meritocratic validator positions (underperformers get bought out)
+
+**Applications**:
+- **Agent Identities**: Premium names always contestable
+- **Validator Positions**: CRPC validators always replaceable by better performers
+- **Context Storage Rights**: Valuable data must be actively used
+
+📚 **Full Details**: See [HARBERGER_TAXES.md](./HARBERGER_TAXES.md) for complete technical documentation
+
 ## 📖 Documentation
 
 - **[Network Design Breakdown](./NETWORK_DESIGN_BREAKDOWN.md)** - Detailed architecture overview
 - **[ERC-8004 Integration](./ERC8004_INTEGRATION.md)** - Smart contract integration guide
 - **[Tokenomics](./TOKENOMICS.md)** - Complete economic design and game theory
 - **[Shapley Referrals](./SHAPLEY_REFERRALS.md)** - Game-theory-based referral system
+- **[Harberger Taxes](./HARBERGER_TAXES.md)** - Self-assessed taxation for NFTs
 - **[CRPC Protocol](./CRPC.md)** - Commit-Reveal Pairwise Comparison for AI verification
 - **[Interactive Simulation Guide](./simulation/README.md)** - How to use the demo
 - **[Quick Start Guide](./QUICKSTART.md)** - Step-by-step local setup

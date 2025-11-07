@@ -408,6 +408,214 @@ Alice earned 130% more with Shapley! 🚀
 
 **See SHAPLEY_REFERRALS.md for complete technical documentation.**
 
+### 6. Harberger Tax System
+
+**Revolutionary Innovation #2**: ΨNet implements **self-assessed taxation** (Harberger taxes) for NFT assets.
+
+#### The Problem with Traditional NFTs
+
+```
+Traditional NFT Model:
+- Speculator buys @GPT4 identity
+- Holds forever, never uses
+- No ongoing cost (pure speculation)
+- Market becomes illiquid
+- Name squatting rampant
+- Creators get one-time royalty only
+
+Result: Rent extraction, hoarding, zero ecosystem value
+```
+
+#### ΨNet's Harberger Solution
+
+**Three Core Principles**:
+1. **Self-Assessment**: Owners declare value of their NFT
+2. **Continuous Tax**: Pay 5% annually on self-declared value
+3. **Always For Sale**: Anyone can buy at your declared price (forced sale!)
+
+**Example**:
+```
+Alice owns @TrustBot identity:
+- Self-assesses at 10,000 PSI
+- Pays 500 PSI/year tax (5%)
+- Anyone can buy for 10,000 PSI anytime
+
+If Alice overvalues (to deter buyers):
+→ Pays too much tax (economically irrational)
+
+If Alice undervalues (to reduce tax):
+→ Someone buys it cheap (loses asset)
+
+Optimal strategy: HONEST market valuation ✅
+```
+
+#### Applications in ΨNet
+
+**1. Agent Identities (HarbergerIdentityRegistry)**:
+```
+Premium names: @GPT4, @ClaudeAI, @Gemini
+Self-assessed values: 10,000 - 1,000,000 PSI
+Tax prevents name squatting
+Ensures productive use
+```
+
+**2. Validator Positions (HarbergerValidator)**:
+```
+CRPC validator slots are contestable
+High performers value slots highly
+Low performers get bought out
+Self-regulating validator quality
+```
+
+#### Tax Distribution (Same as Transaction Fees)
+
+| Allocation | Percentage | Purpose |
+|------------|------------|---------|
+| **Creator** | 40% | Ongoing royalties (sustainable!) |
+| **Reward Pool** | 40% | Ecosystem rewards |
+| **Treasury** | 20% | Development funding |
+
+#### Economic Impact
+
+**Scenario**: 1,000 Agent Identities
+
+```
+Average value: 10,000 PSI
+Tax rate: 5% annually
+
+Annual tax revenue:
+1,000 × 10,000 PSI × 5% = 500,000 PSI/year
+
+Distribution:
+- Creators: 200,000 PSI/year (40%)
+- Rewards: 200,000 PSI/year (40%)
+- Treasury: 100,000 PSI/year (20%)
+
+Traditional NFT royalties:
+- One-time 10% = 1,000,000 PSI (once)
+
+Harberger advantages:
+- After 2 years: More total revenue
+- After 10 years: 5x more revenue
+- Continuous creator income
+- Discourages speculation
+- Ensures productive use
+```
+
+#### Key Benefits
+
+| Traditional NFTs | Harberger NFTs | Advantage |
+|------------------|----------------|-----------|
+| Hoarding profitable | Hoarding expensive | Harberger +100% |
+| Illiquid markets | Always for sale | Harberger +100% |
+| One-time royalties | Continuous royalties | Harberger +500% |
+| Speculation encouraged | Productive use required | Harberger +100% |
+| Name squatting | Honest valuation | Harberger +100% |
+
+#### Game Theory: Nash Equilibrium
+
+Honest self-assessment is the dominant strategy:
+
+```
+Strategy: Overvalue (S = 2V)
+Tax cost: 2x normal
+Risk of sale: Low
+Result: Waste money on excessive tax ❌
+
+Strategy: Honest value (S = V)
+Tax cost: Fair (5% of V)
+Risk of sale: Medium
+Result: Optimal if you value asset most ✅
+
+Strategy: Undervalue (S = 0.5V)
+Tax cost: Low
+Risk of sale: High (will be bought!)
+Result: Lose valuable asset ❌
+
+Nash Equilibrium: S = V (honest valuation)
+```
+
+#### Integration with ΨNet Systems
+
+**Synergies**:
+- **Shapley Referrals**: Tax revenue → referral rewards pool
+- **ERC-8004**: High reputation → higher identity values
+- **CRPC**: Validator performance → position value
+- **$PSI Economics**: Tax aligns with 0.1% fee model
+
+**Economic Flywheel**:
+```
+1. User buys Harberger identity (pays 5% tax/year)
+   ↓
+2. Tax funds creators (40%) + rewards (40%) + treasury (20%)
+   ↓
+3. Rewards distributed via Shapley referrals
+   ↓
+4. More users join (attracted by rewards)
+   ↓
+5. Identity values increase (network effects)
+   ↓
+6. Higher tax revenue
+   ↓
+7. Cycle amplifies (sustainable growth!)
+```
+
+#### Real-World Example
+
+```
+Year 0: Alice buys @TrustBot for 10,000 PSI
+       Alice self-assesses at 10,000 PSI
+
+Year 1-5: Alice uses @TrustBot for AI services
+         Earns: 1,000 PSI/month = 12,000 PSI/year
+         Tax: 500 PSI/year
+         Net profit: 11,500 PSI/year
+         Tax is only 4% of revenue (sustainable!)
+
+Year 5: @TrustBot has excellent reputation
+       Market value increases to 50,000 PSI
+       Alice updates assessment to 50,000 PSI
+       Tax: 2,500 PSI/year (~208 PSI/month)
+
+       Options:
+       1. Keep earning >2,500 PSI/year (profitable!)
+       2. Sell to someone who values it higher
+       3. Lower assessment (but risk forced sale)
+
+       Alice chooses #1 (productive use wins!)
+
+Year 10: Bob wants validator position
+        Alice is underperforming validator
+        Alice self-assessed at 30,000 PSI
+        Bob buys position for 30,000 PSI
+        Network gets better validator
+        Alice fairly compensated
+
+Result:
+- Meritocratic outcomes
+- Productive use encouraged
+- Fair compensation for all
+- Network quality improves
+```
+
+#### Why This Matters
+
+**Web2 Platforms**:
+- 30% fees (rent extraction)
+- One-time creator payments
+- Speculation encouraged
+- Name squatting profitable
+
+**ΨNet with Harberger Taxes**:
+- 5% continuous tax (40% to creators = 2% effective creator royalty)
+- Ongoing sustainable creator income
+- Productive use required (must earn to offset tax)
+- Name squatting becomes expensive
+
+**Result**: Creators earn more long-term, speculators lose, productive users win.
+
+**See HARBERGER_TAXES.md for complete technical documentation.**
+
 ---
 
 ## Deflationary Mechanics
