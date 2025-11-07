@@ -184,13 +184,44 @@ Total: +1500 PSI ✅
 Surplus: +500 PSI (50% more value created!)
 ```
 
-📚 **Full Details**: See [TOKENOMICS.md](./TOKENOMICS.md) for complete economic design
+### 🎯 Shapley Value Referrals
+
+ΨNet implements the **world's first game-theory-based referral system** using Shapley values:
+
+```
+Traditional Referrals:
+Alice refers Bob → Only Alice gets $5
+Bob refers Charlie → Only Bob gets $5
+❌ Zero-sum, shallow incentives
+
+ΨNet Shapley Referrals:
+Alice refers Bob → BOTH get 50 PSI!
+Bob refers Charlie → Everyone gets coalition bonuses
+Alice → Bob → Charlie → Diana → Eve
+
+Alice earns: 420 PSI (42x more than flat rate!)
+✅ Positive-sum, exponential growth
+```
+
+**Key Innovation**: Two-layer rewards
+1. **Local Fairness**: Referrer and referee split immediate reward 50/50
+2. **Global Fairness**: Entire chain earns retroactive bonuses as network grows
+
+**Benefits**:
+- Referees benefit (not just referrers!)
+- Deep chains earn 40x+ more than flat rate
+- Helping others succeed increases your own earnings
+- Quality > Quantity (engaged users boost everyone's rewards)
+
+📚 **Full Details**: See [TOKENOMICS.md](./TOKENOMICS.md) for complete economic design and [SHAPLEY_REFERRALS.md](./SHAPLEY_REFERRALS.md) for technical implementation
 
 ## 📖 Documentation
 
 - **[Network Design Breakdown](./NETWORK_DESIGN_BREAKDOWN.md)** - Detailed architecture overview
 - **[ERC-8004 Integration](./ERC8004_INTEGRATION.md)** - Smart contract integration guide
 - **[Tokenomics](./TOKENOMICS.md)** - Complete economic design and game theory
+- **[Shapley Referrals](./SHAPLEY_REFERRALS.md)** - Game-theory-based referral system
+- **[CRPC Protocol](./CRPC.md)** - Commit-Reveal Pairwise Comparison for AI verification
 - **[Interactive Simulation Guide](./simulation/README.md)** - How to use the demo
 - **[Quick Start Guide](./QUICKSTART.md)** - Step-by-step local setup
 - **[Project Status](./PROJECT_STATUS.md)** - Current implementation status
