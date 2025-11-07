@@ -3,7 +3,6 @@ pragma solidity ^0.8.20;
 
 import "./HarbergerNFT.sol";
 import "./erc8004/IReputationRegistry.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
 /**
  * @title SkillRegistry
@@ -36,8 +35,6 @@ import "@openzeppelin/contracts/utils/Counters.sol";
  * - "FastAPI Backend" (extracted from FastAPI docs + repos)
  */
 contract SkillRegistry is HarbergerNFT {
-    using Counters for Counters.Counter;
-
     IReputationRegistry public reputationRegistry;
 
     // Skill metadata
@@ -77,7 +74,7 @@ contract SkillRegistry is HarbergerNFT {
     mapping(address => uint256[]) private _userSkills;
     mapping(string => uint256[]) private _taggedSkills; // tag → skill IDs
 
-    Counters.Counter private _skillIdCounter;
+    uint256 private _skillIdCounter;
 
     uint256 public constant MIN_SKILL_VALUE = 100 * 10**18; // 100 PSI minimum
     uint256 public constant LICENSE_DURATION = 90 days; // 3 months
@@ -112,7 +109,7 @@ contract SkillRegistry is HarbergerNFT {
         _treasury
     ) {
         reputationRegistry = IReputationRegistry(_reputationRegistry);
-        _skillIdCounter.increment(); // Start at 1
+        _skillIdCounter = 1; // Start at 1
     }
 
     /**
@@ -139,8 +136,8 @@ contract SkillRegistry is HarbergerNFT {
         require(initialValue >= MIN_SKILL_VALUE, "Minimum value not met");
         require(tags.length > 0 && tags.length <= 10, "1-10 tags required");
 
-        skillId = _skillIdCounter.current();
-        _skillIdCounter.increment();
+        skillId = _skillIdCounter;
+        _skillIdCounter++;
 
         // Mint Harberger NFT
         _mint(msg.sender, skillId);
@@ -384,7 +381,7 @@ contract SkillRegistry is HarbergerNFT {
         view
         returns (uint256[] memory trendingIds)
     {
-        uint256 totalSkills = _skillIdCounter.current() - 1;
+        uint256 totalSkills = _skillIdCounter - 1;
         if (limit > totalSkills) limit = totalSkills;
 
         // Simple bubble sort by usage count
@@ -392,7 +389,7 @@ contract SkillRegistry is HarbergerNFT {
         uint256[] memory usageCounts = new uint256[](totalSkills);
         uint256 idx = 0;
 
-        for (uint256 i = 1; i < _skillIdCounter.current(); i++) {
+        for (uint256 i = 1; i < _skillIdCounter; i++) {
             if (_exists(i)) {
                 allIds[idx] = i;
                 usageCounts[idx] = skills[i].usageCount;
@@ -473,14 +470,14 @@ contract SkillRegistry is HarbergerNFT {
             uint256 totalValue
         )
     {
-        totalSkills = _skillIdCounter.current() - 1;
+        totalSkills = _skillIdCounter - 1;
 
         uint256 verifiedCount = 0;
         uint256 sumQuality = 0;
         uint256 sumValue = 0;
         uint256 sumUsage = 0;
 
-        for (uint256 i = 1; i < _skillIdCounter.current(); i++) {
+        for (uint256 i = 1; i < _skillIdCounter; i++) {
             if (_exists(i)) {
                 Skill storage skill = skills[i];
 
