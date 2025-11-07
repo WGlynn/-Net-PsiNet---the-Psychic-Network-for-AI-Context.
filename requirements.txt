@@ -1,0 +1,11 @@
+# PsiNet Python Dependencies
+
+# Core cryptography
+cryptography>=41.0.0
+
+# Optional: For IPFS integration
+requests>=2.31.0
+
+# Optional: For advanced features
+# arweave-python-client>=1.0.0  # Uncomment if using Arweave
+# py-libp2p>=0.1.0              # Uncomment for P2P networking
