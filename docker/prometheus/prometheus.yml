@@ -1,0 +1,58 @@
+# Prometheus configuration for ΨNet monitoring
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'psinet-dev'
+
+# Alerting configuration (optional)
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: []
+
+# Load rules once and periodically evaluate them
+rule_files:
+  # - "alerts.yml"
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Hardhat node (if instrumented)
+  - job_name: 'hardhat'
+    static_configs:
+      - targets: ['hardhat:8545']
+    metrics_path: '/metrics'
+
+  # IPFS node
+  - job_name: 'ipfs'
+    static_configs:
+      - targets: ['ipfs:5001']
+    metrics_path: '/debug/metrics/prometheus'
+
+  # PostgreSQL exporter (if added)
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['postgres:5432']
+
+  # Redis exporter (if added)
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis:6379']
+
+  # The Graph node
+  - job_name: 'graph-node'
+    static_configs:
+      - targets: ['graph-node:8040']
+    metrics_path: '/metrics'
+
+  # Custom ΨNet metrics (from backend service)
+  - job_name: 'psinet-api'
+    static_configs:
+      - targets: ['api:3001']
+    metrics_path: '/metrics'

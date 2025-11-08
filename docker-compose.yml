@@ -1,0 +1,153 @@
+version: '3.8'
+
+# ΨNet Local Development Environment
+# One-command setup for full stack development and testing
+
+services:
+  # Hardhat Ethereum node
+  hardhat:
+    image: node:18-alpine
+    container_name: psinet-hardhat
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "8545:8545"
+    command: npx hardhat node
+    networks:
+      - psinet
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "8545"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # IPFS node for decentralized storage
+  ipfs:
+    image: ipfs/kubo:latest
+    container_name: psinet-ipfs
+    environment:
+      - IPFS_PROFILE=server
+    volumes:
+      - ipfs-data:/data/ipfs
+      - ipfs-staging:/export
+    ports:
+      - "4001:4001"     # Swarm
+      - "4001:4001/udp" # Swarm UDP
+      - "5001:5001"     # API
+      - "8080:8080"     # Gateway
+    networks:
+      - psinet
+    healthcheck:
+      test: ["CMD", "ipfs", "id"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PostgreSQL for off-chain indexing (optional)
+  postgres:
+    image: postgres:15-alpine
+    container_name: psinet-postgres
+    environment:
+      POSTGRES_USER: psinet
+      POSTGRES_PASSWORD: psinet_dev
+      POSTGRES_DB: psinet_dev
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - psinet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U psinet"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Redis for caching and queues
+  redis:
+    image: redis:7-alpine
+    container_name: psinet-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - psinet
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    command: redis-server --appendonly yes
+
+  # The Graph node (for blockchain indexing)
+  graph-node:
+    image: graphprotocol/graph-node:latest
+    container_name: psinet-graph
+    depends_on:
+      - postgres
+      - ipfs
+      - hardhat
+    environment:
+      postgres_host: postgres
+      postgres_user: psinet
+      postgres_pass: psinet_dev
+      postgres_db: psinet_dev
+      ipfs: 'ipfs:5001'
+      ethereum: 'localhost:http://hardhat:8545'
+      GRAPH_LOG: info
+    ports:
+      - "8000:8000"  # GraphQL HTTP
+      - "8001:8001"  # GraphQL WS
+      - "8020:8020"  # JSON-RPC
+      - "8030:8030"  # Subgraph indexing status
+    networks:
+      - psinet
+
+  # Grafana for monitoring
+  grafana:
+    image: grafana/grafana:latest
+    container_name: psinet-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=psinet_dev
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./docker/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./docker/grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - psinet
+    depends_on:
+      - prometheus
+
+  # Prometheus for metrics
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: psinet-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - psinet
+
+networks:
+  psinet:
+    driver: bridge
+
+volumes:
+  ipfs-data:
+  ipfs-staging:
+  postgres-data:
+  redis-data:
+  grafana-data:
+  prometheus-data:
